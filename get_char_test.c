@@ -1,11 +1,8 @@
 #include <stdio.h>
 
 int main() {
-    char c = getchar();
-    while (c != EOF) {
-        if (c == 'H') {
-            c = 'F';
-        }
+    int c;
+    while ((c = getchar()) != EOF) {
         putchar(c);
         c = getchar();
     }
