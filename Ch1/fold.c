@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define LIMIT 10
+#define LIMIT 50
 #define WORD_LIMIT 1000
 
 void getNextPart(char getNextWord[], int result[]);
