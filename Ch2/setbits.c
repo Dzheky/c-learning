@@ -16,7 +16,7 @@ unsigned setbits(unsigned x, int p, int n, unsigned y);
 
 int main() {
 
-    printf("bynary: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(setbits(0b01011011, 6, 4, 0b11111111)));
+    printf("bynary: "BYTE_TO_BINARY_PATTERN, BYTE_TO_BINARY(setbits(0b01011011, 1, 2, 0b11111010)));
 
     return 0;
 }
@@ -26,7 +26,8 @@ unsigned getbits(unsigned x, int p, int n) {
 }
 
 unsigned setbits(unsigned x, int p, int n, unsigned y) {
-    unsigned rightmostYMask = getbits(y, n - 1, n) << (p+1-n);
+    unsigned insertingPortionMask = getbits(y, n - 1, n) << (p+1-n);
+    unsigned clearPortionMask = ~(getbits(~0, n - 1, n) << (p+1-n));
 
-    return (x && ~rightmostYMask) | rightmostYMask;
+    return (x & clearPortionMask) | insertingPortionMask;
 }
