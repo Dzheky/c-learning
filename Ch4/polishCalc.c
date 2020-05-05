@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <string.h>
+#include <math.h>
 #include <stdlib.h>
 
 #define MAX_OP 100
@@ -44,6 +46,22 @@ int main() {
                     push((int) pop() % (int) pop());
                 } else {
                     printf("ERROR: zero devisor\n");
+                }
+                break;
+            case 's':
+                if (strncmp(s,"sin", 3) == 0) {
+                    push(sin(pop()));
+                }
+                break;
+            case 'e':
+                if (strncmp(s,"exp", 3) == 0) {
+                    push(exp(pop()));
+                }
+                break;
+            case 'p':
+                if (strncmp(s,"pow", 3) == 0) {
+                    op2 = pop();
+                    push(pow(pop(), op2));
                 }
                 break;
             case '\n':

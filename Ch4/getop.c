@@ -18,7 +18,16 @@ int getop(char s[]) {
         c = '-';
     }
 
+    if (c == '\n') {
+        return c;
+    }
+
     if (!isdigit(c) && c != '.') {
+        while (s[i] != ' ' && s[i] != '\t' && s[i] != '\n' && s[i] != EOF) {
+            s[++i] = getch();
+        }
+        ungetch(s[i]);
+        s[i] = '\0';
         return c;
     }
     if (isdigit(c)) {
