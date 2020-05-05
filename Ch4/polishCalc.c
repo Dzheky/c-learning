@@ -6,6 +6,8 @@
 
 int getop(char []);
 void push(double);
+void swapTop(void);
+void printTop(void);
 double pop(void);
 
 int main() {
@@ -39,13 +41,13 @@ int main() {
             case '%':
                 op2 = pop();
                 if (op2 != 0.0) {
-                    push((int) pop() % (int) op2);
+                    push((int) pop() % (int) pop());
                 } else {
                     printf("ERROR: zero devisor\n");
                 }
                 break;
             case '\n':
-                printf("\t%.8g\n", pop());
+                printTop();
                 break;
             default:
                 printf("ERROR: unknown command\n");
