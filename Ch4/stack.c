@@ -2,8 +2,12 @@
 
 #define MAX_STACK 100
 
+void setVariable(char, double);
+void clearstack(void);
+
 int stackPosition = 0;
 double stack[MAX_STACK];
+int currChar = 0;
 
 void push(double val) {
     if (stackPosition < MAX_STACK) {
@@ -15,7 +19,10 @@ void push(double val) {
 
 void printTop(void) {
     if (stackPosition > 0) {
-        printf("\t%.8g\n", stack[stackPosition - 1]);
+        setVariable(currChar + 'a', stack[stackPosition - 1]);
+        printf("\t%.8g as %c\n", stack[stackPosition - 1], currChar + 'a');
+        currChar++;
+        clearstack();
     } else {
         printf("ERROR: Stack is empty\n");
     }

@@ -1,15 +1,19 @@
 #include <stdio.h>
-#include <string.h>
 #include <math.h>
 #include <stdlib.h>
 
 #define MAX_OP 100
 #define NUMBER '0'
+#define SIN '1'
+#define EXP '2'
+#define POW '3'
+#define VARIABLE '4'
 
 int getop(char []);
+double getVariable(char);
 void push(double);
 void swapTop(void);
-void printTop(void);
+void printTop();
 double pop(void);
 
 int main() {
@@ -48,21 +52,18 @@ int main() {
                     printf("ERROR: zero devisor\n");
                 }
                 break;
-            case 's':
-                if (strncmp(s,"sin", 3) == 0) {
-                    push(sin(pop()));
-                }
+            case SIN:
+                push(sin(pop()));
                 break;
-            case 'e':
-                if (strncmp(s,"exp", 3) == 0) {
-                    push(exp(pop()));
-                }
+            case EXP:
+                push(exp(pop()));
                 break;
-            case 'p':
-                if (strncmp(s,"pow", 3) == 0) {
-                    op2 = pop();
-                    push(pow(pop(), op2));
-                }
+            case POW:
+                op2 = pop();
+                push(pow(pop(), op2));
+                break;
+            case VARIABLE:
+                push(getVariable(s[0]));
                 break;
             case '\n':
                 printTop();
