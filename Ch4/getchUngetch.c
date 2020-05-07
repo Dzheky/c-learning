@@ -15,3 +15,15 @@ void ungetch(int c) {
         buf[bufp++] = c;
     }
 }
+
+void ungets(char s[]) {
+    int len;
+    for(len = 0; s[len] != '\0'; len++)
+        ;
+    if (len + bufp > BUFSIZE) {
+        printf("ERROR: string is too large\n");
+    }
+    for (; len >= 0; len--) {
+        ungetch(s[len]);
+    }
+}

@@ -15,6 +15,7 @@ void push(double);
 void swapTop(void);
 void printTop();
 double pop(void);
+void ungets(char s[]);
 
 int main() {
     int type;
