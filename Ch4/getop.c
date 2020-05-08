@@ -14,14 +14,22 @@ void ungetch(int);
 char variables[MAX_VARIABLES];
 
 int getop(char s[]) {
+    static int holder = 0;
     int i, c;
     i = 0;
-    while ((s[i] = c = getch()) == ' ' || c == '\t')
-        ;
+    if (holder == 0) {
+        c = getch();
+    } else {
+        c = holder;
+        holder = 0;
+    }
+    while ((s[i] = c) == ' ' || c == '\t') {
+        c = getch();
+    }
     s[1] = '\0';
 
     if (c == '-' && !isdigit(s[++i] = c = getch())) {
-        ungetch(c);
+        holder = c;
         c = '-';
     }
 
@@ -33,7 +41,7 @@ int getop(char s[]) {
         while (s[i] != ' ' && s[i] != '\t' && s[i] != '\n' && s[i] != EOF) {
             s[++i] = getch();
         }
-        ungetch(s[i]);
+        holder = s[i];
         s[i] = '\0';
         if (strncmp(s,"exp", 3) == 0) {
             c = EXP;
@@ -64,7 +72,7 @@ int getop(char s[]) {
     }
     s[i] = '\0';
     if (c != EOF) {
-        ungetch(c);
+        holder = c;
     }
 
     return NUMBER;
