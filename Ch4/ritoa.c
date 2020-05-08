@@ -19,5 +19,7 @@ void ritoa(char s[], int d) {
         s[x++] = d % 10 + '0';
     } else {
         s[x] = '\0';
+        i = 0;
+        x = 0;
     }
 }
