@@ -7,11 +7,28 @@ int printTab(int len);
 int printTabCustomStops(int len, char * argv[], int argc);
 
 int stops[MAX_STOPS];
+int stop = 8;
+int after = 0;
 
 int main(int argc, char * argv[]) {
     int c;
     int len;
     int isArgs = argc > 1;
+
+    for (int i = 0; i < argc -1; i++) {
+        if (*argv[i] == '-') {
+            switch (*++argv[i]) {
+                case 'n':
+                    stop = atoi(argv[++i]);
+                    isArgs = 0;
+                    break;
+                case 'm':
+                    after = atoi(argv[++i]);
+                    isArgs = 0;
+                    break;
+            }
+        }
+    }
 
     len = 0;
     while((c = getchar()) != EOF) {
@@ -50,9 +67,16 @@ int printTabCustomStops(int len, char * argv[], int argc) {
 }
 
 int printTab(int len) {
-    for(int i = 0; i < 8 - len % 8; i++) {
+    if (len > after) {
+        int nspaces = stop - (len - after) % stop;
+        for(int i = 0; i < nspaces; i++) {
+            putchar(' ');
+        }
+
+        return nspaces;
+    }
+    for (int i = 0; i < after; i++) {
         putchar(' ');
     }
-
-    return 8 - len % 8;
+    return after;
 }
