@@ -23,7 +23,6 @@ int main(int argc, char * argv[]) {
                 push(pop() + pop());
                 break;
             case '*':
-                printf("HERE\n");
                 push(pop() * pop());
                 break;
             case '/':
