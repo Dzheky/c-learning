@@ -12,6 +12,7 @@ int numcmp(const char *, const char *);
 
 int lastn = 10;
 int reverse = 0;
+int caseinsensive = 0;
 char * holder[MAX_LINES];
 int currLine = 0;
 
@@ -20,6 +21,8 @@ int main(int argc, char * argv[]) {
     char buf[MAX_LINE];
     int lineLength = 0;
     int numeric = 0;
+    int (*func)(const void*, const void*);
+
     for (int i = 1; i < argc; i++) {
         if (argc > 1 && *argv[i] == '-' && isdigit(*(argv[i] + 1))) {
             lastn = atoi((argv[i] + 1)) > 0 ? atoi((argv[i] + 1)) : 10;
@@ -32,6 +35,11 @@ int main(int argc, char * argv[]) {
         if (strcmp(argv[i], "-r") == 0) {
             reverse = 1;
         }
+
+        if (strcmp(argv[i], "-f") == 0) {
+            caseinsensive = 1;
+        }
+
     }
 
     while((lineLength = getLine(buf, MAX_LINE)) != 0) {
@@ -40,8 +48,15 @@ int main(int argc, char * argv[]) {
         holder[currLine++] = p;
     }
 
-    quickSort((void**) holder, 0, currLine-1,
-          (int (*)(const void*, const void*))(numeric ? numcmp : strcmp));
+    if (numeric) {
+        func = (int (*)(const void*, const void*)) numcmp;
+    } else if (caseinsensive) {
+        func = (int (*)(const void*, const void*)) strcasecmp;
+    } else {
+        func = (int (*)(const void*, const void*)) strcmp;
+    }
+
+    quickSort((void**) holder, 0, currLine-1, func);
 
     if (currLine < lastn) {
         for (int i = 0; i < currLine; i++) {
