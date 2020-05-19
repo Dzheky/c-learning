@@ -9,6 +9,7 @@
 int getLine(char str[], int limit);
 void quickSort(void *holder[], int left, int right, int (*comp)(const void *, const void *));
 int numcmp(const char *, const char *);
+int strnCmp(const char *s, const char *t);
 
 int lastn = 10;
 int reverse = 0;
@@ -53,7 +54,7 @@ int main(int argc, char * argv[]) {
     } else if (caseinsensive) {
         func = (int (*)(const void*, const void*)) strcasecmp;
     } else {
-        func = (int (*)(const void*, const void*)) strcmp;
+        func = (int (*)(const void*, const void*)) strnCmp;
     }
 
     quickSort((void**) holder, 0, currLine-1, func);
@@ -120,4 +121,18 @@ int numcmp(const char *s1, const char *s2) {
 void swap(void *v[], int i, int j) {
     void *temp;
     temp = v[i]; v[i] = v[j]; v[j] = temp;
+}
+
+int strnCmp(char *s, char *t, unsigned n) {
+    int i;
+    for (i = 0; i < n && *s == *t; s++, t++, i++) {
+        if (*t == '\0') {
+            return 0;
+        }
+    }
+    if (i == n) {
+        return 0;
+    }
+
+    return *s - *t;
 }
