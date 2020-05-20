@@ -13,7 +13,8 @@ int strnCmp(const char *s, const char *t);
 
 int lastn = 10;
 int reverse = 0;
-int caseinsensive = 0;
+int caseinsensitive = 0;
+int pathinsensitive = 0;
 char * holder[MAX_LINES];
 int currLine = 0;
 
@@ -38,7 +39,11 @@ int main(int argc, char * argv[]) {
         }
 
         if (strcmp(argv[i], "-f") == 0) {
-            caseinsensive = 1;
+            caseinsensitive = 1;
+        }
+
+        if (strcmp(argv[i], "-d") == 0) {
+            pathinsensitive = 1;
         }
 
     }
@@ -51,7 +56,7 @@ int main(int argc, char * argv[]) {
 
     if (numeric) {
         func = (int (*)(const void*, const void*)) numcmp;
-    } else if (caseinsensive) {
+    } else if (caseinsensitive) {
         func = (int (*)(const void*, const void*)) strcasecmp;
     } else {
         func = (int (*)(const void*, const void*)) strnCmp;
@@ -123,11 +128,30 @@ void swap(void *v[], int i, int j) {
     temp = v[i]; v[i] = v[j]; v[j] = temp;
 }
 
-int strnCmp(char *s, char *t, unsigned n) {
-    int i;
-    for (i = 0; i < n && *s == *t; s++, t++, i++) {
+int strnCmp(const char *s, const char *t) {
+    int n = 0;
+    const char *p = s;
+    int i = 0;
+    while(*p++ != '\0' && ++n)
+        ;
+    while (i < n) {
         if (*t == '\0') {
             return 0;
+        }
+        if (pathinsensitive && !isalpha(*s) && !isdigit(*s) && !isspace(*s)) {
+            s++;
+            i++;
+            continue;
+        }
+        if (pathinsensitive && !isalpha(*t) && !isdigit(*t) && !isspace(*t)) {
+            t++;
+            continue;
+        }
+        if (*s == *t) {
+            s++, t++;
+            continue;
+        } else {
+            break;
         }
     }
     if (i == n) {
